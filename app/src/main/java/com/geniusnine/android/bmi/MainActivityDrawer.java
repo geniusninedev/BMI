@@ -1,7 +1,6 @@
 package com.geniusnine.android.bmi;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,14 +8,15 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,11 +25,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.facebook.login.LoginManager;
 import com.geniusnine.android.bmi.BMI.BMIFragment;
 import com.geniusnine.android.bmi.DashBord.GetApp;
@@ -40,13 +37,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.http.OkHttpClientFactory;
-
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.squareup.okhttp.OkHttpClient;
-
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.Manifest.permission.WRITE_CONTACTS;
 
 
 public class MainActivityDrawer extends AppCompatActivity {
@@ -55,15 +52,9 @@ public class MainActivityDrawer extends AppCompatActivity {
     FragmentManager mFragmentManager;
     FragmentTransaction mFragmentTransaction;
     TextView Name,Email;
-
-   public Toolbar toolbar;
+    public Toolbar toolbar;
     Intent intent;
-
-    private static final int REQUEST_CONTACTS = 1;
-
-    private static String[] PERMISSIONS_CONTACT = {android.Manifest.permission.READ_CONTACTS,
-            android.Manifest.permission.WRITE_CONTACTS};
-
+    private static final int PERMISSION_REQUEST_CODE = 200;
     ///Azure Database connection for contact uploading
     private MobileServiceClient mobileServiceClientContactUploading;
     private MobileServiceTable<Contacts> mobileServiceTableContacts;
@@ -73,7 +64,7 @@ public class MainActivityDrawer extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener firebaseAuthListner;
     private DatabaseReference databaseReferenceUserContacts;
     //Setting up progress dialog
-    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +79,6 @@ public class MainActivityDrawer extends AppCompatActivity {
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
         Name = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.name);
         Email = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.email);
-        String name = firebaseAuth.getCurrentUser().getDisplayName();
-        String email = firebaseAuth.getCurrentUser().getEmail();
-
-        Name.setText(name);
-        Email.setText(email);
         /**
          * Lets inflate the very first fragment
          * Here , we are inflating the TabFragment as the first Fragment
@@ -129,11 +115,6 @@ public class MainActivityDrawer extends AppCompatActivity {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=GeniusNine+Info+Systems+LLP" )));
                     }
 
-                    //Pravin  Code
-                   /* intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=GeniusNine+Info+Systems+LLP"));
-                    startActivity(intent);*/
-                    /*Intent intent=new Intent(MainActivityDrawer.this, com.nineinfosys.android.weightlosscalculators.Weight.ForumMainActivity.class);
-                    startActivity(intent);*/
                 }
 
                 if (menuItem.getItemId() == R.id.Share) {
@@ -178,20 +159,21 @@ public class MainActivityDrawer extends AppCompatActivity {
 
 
         authenticate();
-        //uploadContactsToAzure();
-        testContactUpload();
+        if (!checkPermission()) {
+            requestPermission();
+        } else {
+            Toast.makeText(MainActivityDrawer.this,"Permission already granted.",Toast.LENGTH_LONG).show();
+            uploadContactsToAzure();
+            syncContactsWithFirebase();
+        }
     }
 
 
     ///Uploading contacts to azure
     private void uploadContactsToAzure(){
-
-
         initializeAzureTable();
         fetchContacts();
         uploadContact();
-
-
     }
     private void initializeAzureTable() {
         try {
@@ -246,7 +228,6 @@ public class MainActivityDrawer extends AppCompatActivity {
 
             try {
                 asyncUploader(c);
-                //mobileServiceTable.insert(c);
             }
             catch (Exception e){
                 Log.e("uploadContact : ", e.toString());
@@ -255,8 +236,6 @@ public class MainActivityDrawer extends AppCompatActivity {
     }
     private void asyncUploader(Contacts contact){
         final Contacts item = contact;
-        //Log.e(" ", item.getContactname());
-
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -268,14 +247,13 @@ public class MainActivityDrawer extends AppCompatActivity {
                             try {
 
                             } catch (Exception e) {
-                                // Log.e("Error --", e.toString());
                             }
 
 
                         }
                     });
                 } catch (final Exception e) {
-                    // createAndShowDialogFromTask(e, "Error");
+
                 }
                 return null;
             }
@@ -339,111 +317,6 @@ public class MainActivityDrawer extends AppCompatActivity {
     }
 
 
-
-    private boolean isContactPermissionGranted(){
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED)
-        {
-            return false;
-
-        } else {
-
-
-            return true;
-
-        }
-    }
-
-    private void requestContactsPermissions() {
-        // BEGIN_INCLUDE(contacts_permission_request)
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_CONTACTS))
-        {
-            ActivityCompat.requestPermissions(MainActivityDrawer.this, PERMISSIONS_CONTACT, REQUEST_CONTACTS);
-
-
-        } else {
-
-            ActivityCompat.requestPermissions(this, PERMISSIONS_CONTACT, REQUEST_CONTACTS);
-
-
-        }
-
-        testContactUploadSecondTime();
-
-
-
-    }
-
-
-    private void testContactUploadSecondTime(){
-
-        if(!isContactPermissionGranted()){
-            android.os.Process.killProcess(android.os.Process.myPid());
-
-            System.exit(1);
-
-
-        }
-        else {
-            Log.e("CONTACT ", "PERMISSION_ALREADY_GRANTED");
-            Log.e("CONTACT ", "Uploading contacts to azure.....");
-            syncContactsWithFirebase();
-            uploadContactsToAzure();
-
-
-        }
-
-    }
-
-    private void testContactUpload(){
-        if(isContactPermissionGranted()){
-            Log.e("CONTACT ", "PERMISSION_ALREADY_GRANTED");
-            Log.e("CONTACT ", "Uploading contacts to azure.....");
-            uploadContactsToAzure();
-            syncContactsWithFirebase();
-            return ;
-        }
-        else {
-            Log.e("CONTACT ", "PERMISSION_REQUESTED");
-            createAlertDialogBoxPermissionNotGranted();
-
-        }
-
-    }
-
-
-    private void createAlertDialogBoxPermissionNotGranted(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityDrawer.this);
-      alertDialogBuilder.setMessage("You must grant permissions for App to work properly. Restart app after granting permission");
-        alertDialogBuilder.setPositiveButton("yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        Log.e("ALERT BOX ", "Requesting Permissions");
-                        requestContactsPermissions();
-
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Log.e("ALERT BOX ", "Permissions not granted");
-                android.os.Process.killProcess(android.os.Process.myPid());
-
-                System.exit(1);
-
-            }
-        });
-
-       AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-
-
-    }
-
     protected void syncContactsWithFirebase(){
 
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
@@ -471,13 +344,7 @@ public class MainActivityDrawer extends AppCompatActivity {
                         } catch (Exception e) {
 
                         }
-
-
-
                     }
-
-
-
                     runOnUiThread(new Runnable() {
 
                         @Override
@@ -494,12 +361,6 @@ public class MainActivityDrawer extends AppCompatActivity {
         };
 
         task.execute();
-
-
-
-
-
-
 
     }
 
@@ -546,6 +407,91 @@ public class MainActivityDrawer extends AppCompatActivity {
             //Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), READ_CONTACTS);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_CONTACTS);
+
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{READ_CONTACTS, WRITE_CONTACTS}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (locationAccepted && cameraAccepted) {
+                    }
+                    else {
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityDrawer.this);
+                                alertDialogBuilder.setMessage("You must grant permissions for App to work properly. Restart app after granting permission");
+                                alertDialogBuilder.setPositiveButton("yes",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+
+                                                Log.e("ALERT BOX ", "Requesting Permissions");
+
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{READ_CONTACTS, WRITE_CONTACTS},
+                                                            PERMISSION_REQUEST_CODE);
+                                                }
+                                            }
+                                        });
+
+                                alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.e("ALERT BOX ", "Permissions not granted");
+                                        android.os.Process.killProcess(android.os.Process.myPid());
+                                        System.exit(1);
+
+                                    }
+                                });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                return;
+                            }
+                            else{
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivityDrawer.this);
+                                alertDialogBuilder.setMessage("You must grant permissions from  App setting to work");
+                                alertDialogBuilder.setPositiveButton("Ok",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+                                                android.os.Process.killProcess(android.os.Process.myPid());
+                                                System.exit(1);
+                                            }
+                                        });
+
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.setCanceledOnTouchOutside(false);
+                                alertDialog.show();
+                                return;
+
+                            }
+                        }
+
+                    }
+                }
+
+                break;
         }
     }
 
