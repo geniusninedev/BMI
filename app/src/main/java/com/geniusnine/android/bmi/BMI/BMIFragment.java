@@ -1,8 +1,11 @@
 package com.geniusnine.android.bmi.BMI;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +13,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.geniusnine.android.bmi.MainActivityDrawer;
 import com.geniusnine.android.bmi.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.text.DecimalFormat;
 
@@ -32,9 +41,26 @@ public class BMIFragment extends Fragment {
     private RadioButton radioButtonSex,radioButtonHeight,radioButtonWeight;
     TextView textViewBMI,textViewFAT,textViewBMIInterpret,textViewFATInterpret;
 
+   // Utility utility;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_main_bmi, null);
+
+        MobileAds.initialize(getActivity(), getString(R.string.ads_app_id));
+        AdView mAdView = (AdView) v.findViewById(R.id.adViewMainPage);
+        AdView AdView = (AdView) v.findViewById(R.id.adViewPage);
+
+       /* utility = new Utility(getActivity());
+        utility.setLayoutForSmartBanner();*/
+        RelativeLayout.LayoutParams params = new  RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.FILL_PARENT);
+        params.addRule(RelativeLayout.ALIGN_BOTTOM, RelativeLayout.TRUE);
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        mAdView.loadAd(adRequest);
+        AdView.loadAd(adRequest);
+
+
         ((MainActivityDrawer) getActivity()).toolbar.setTitle("BMI");
         //Initialising Views
         editTextAge = (EditText) v.findViewById(R.id.editTextAge);
@@ -310,5 +336,6 @@ public class BMIFragment extends Fragment {
         int resultFATColor=calculateBMI.interpretFATCOLOR();
         textViewFATInterpret.setTextColor(resultFATColor);
     }
+
 
 }

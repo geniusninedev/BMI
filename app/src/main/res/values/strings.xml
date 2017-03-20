@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">BMI</string>
-    <string name="app_id">WeightLoss</string>
+    <string name="app_id">BMI</string>
     <string name="facebook_app_id">267933240296176</string>
     <string name="fb_login_protocol_scheme">fb267933240296176</string>
     <string name="action_logout">Logout</string>
     <string name="web_address">https://geniusnineapps.azurewebsites.net</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6819279779322408/1258702173</string>
+    <string name="ads_app_id">ca-app-pub-6819279779322408~8781968970</string>
 </resources>

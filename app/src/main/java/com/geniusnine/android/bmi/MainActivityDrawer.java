@@ -26,7 +26,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.facebook.login.LoginManager;
 import com.geniusnine.android.bmi.BMI.BMIFragment;
 import com.geniusnine.android.bmi.DashBord.GetApp;
@@ -63,7 +63,6 @@ public class MainActivityDrawer extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListner;
     private DatabaseReference databaseReferenceUserContacts;
-    //Setting up progress dialog
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class MainActivityDrawer extends AppCompatActivity {
         /**
          *Setup the DrawerLayout and NavigationView
          */
+
 
         firebaseAuth=FirebaseAuth.getInstance();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -495,5 +495,7 @@ public class MainActivityDrawer extends AppCompatActivity {
                 break;
         }
     }
+
+
 
 }
