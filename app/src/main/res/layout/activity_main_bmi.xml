@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -228,22 +227,8 @@
                 android:background="@color/colorPrimary"
                 android:visibility="visible"
                 style="@style/Widget.AppCompat.Button.Small" />
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/rootView">
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adViewMainPage"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id">
-            </com.google.android.gms.ads.AdView>
-            </RelativeLayout>
             <View
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="2dip"
                 android:background="#000000" />
@@ -713,7 +698,6 @@
                 android:layout_height="2dip"
                 android:layout_marginTop="15dp"
                 android:background="#000000" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -929,15 +913,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="2dip"
                     android:layout_marginTop="20dp"
-                    android:background="@android:color/black" />
-                <com.google.android.gms.ads.AdView
-                    android:id="@+id/adViewPage"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    ads:adSize="LARGE_BANNER"
-                    ads:adUnitId="@string/banner_ad_unit_id"/>
+                    android:background="@android:color/holo_red_dark" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
