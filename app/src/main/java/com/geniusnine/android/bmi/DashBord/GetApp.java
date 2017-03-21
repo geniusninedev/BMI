@@ -1,5 +1,6 @@
 package com.geniusnine.android.bmi.DashBord;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -67,6 +70,9 @@ public class GetApp extends AppCompatActivity {
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //for hiding keyboard
+                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 String MobileNumberpattern = "[0-9]{10}";
                 String emailpattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if(editTextdevice.getText().toString().trim().equals("")){
@@ -95,7 +101,9 @@ public class GetApp extends AppCompatActivity {
                 }
             }
         });
-
+        GetApp.this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
 
     }
