@@ -73,7 +73,7 @@ public class GetApp extends AppCompatActivity {
                 //for hiding keyboard
                 InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                String MobileNumberpattern = "[0-9]{10}";
+                String MobileNumberpattern = "[0-9]{12}";
                 String emailpattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 if(editTextdevice.getText().toString().trim().equals("")){
                     editTextdevice.setError("Device Required");
