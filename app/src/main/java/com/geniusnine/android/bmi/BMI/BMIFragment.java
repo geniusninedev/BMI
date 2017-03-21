@@ -230,9 +230,9 @@ public class BMIFragment extends Fragment {
                     if (radioGroupSex.getCheckedRadioButtonId() == -1 ){
                         Toast.makeText(getActivity(), "Please Select Gender", Toast.LENGTH_LONG).show();
                     } else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
-                        Toast.makeText(getActivity(), "Please Select Height", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
                     }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
-                        Toast.makeText(getActivity(), "Please Select Weight", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
                     }
                     else {
                         if(radioButtonHeight.getText().toString().trim().equals("CM")) {
