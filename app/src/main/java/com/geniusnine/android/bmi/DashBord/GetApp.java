@@ -56,7 +56,7 @@ public class GetApp extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setTitle("Rate Us");
+        getSupportActionBar().setTitle("Get App");
 
 
         editTextdevice = (EditText)findViewById(R.id.editTextDevice);
@@ -169,7 +169,9 @@ public class GetApp extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
+            Intent intent=new Intent(GetApp.this,MainActivityDrawer.class);
+            finish();
+            startActivity(intent);
 
         }
 

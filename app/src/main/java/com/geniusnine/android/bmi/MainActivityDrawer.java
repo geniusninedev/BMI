@@ -138,6 +138,7 @@ public class MainActivityDrawer extends AppCompatActivity {
                 /*    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.containerView, new GetApp()).commit();*/
                     Intent intent=new Intent(MainActivityDrawer.this, GetApp.class);
+                    finish();
                     startActivity(intent);
 
                 }
