@@ -28,6 +28,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 import org.json.JSONObject;
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton facebookLoginButton;
     private CallbackManager callbackManager;
     private FirebaseAuth firebaseAuth;
-
+    private DatabaseReference mDataBase;
 
     //User for Facebook data
     private UserFacebookData userFacebookData;
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
+        firebaseAuth=FirebaseAuth.getInstance();
+        mDataBase = FirebaseDatabase.getInstance().getReference().child(getString(R.string.app_id)).child("Users");
         startAuthentication();
     }
 
@@ -139,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     //updateUserProfile();
                     //uploadAppUsersDataToAzure();
+                    CreateNewUserInDatabase();
                     Log.e("LoginActivity:", "Logged in and directing to main activity");
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivityDrawer.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -177,5 +182,15 @@ public class LoginActivity extends AppCompatActivity {
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void CreateNewUserInDatabase(){
+
+        String user_id = firebaseAuth.getCurrentUser().getUid();
+        DatabaseReference current_user_db = mDataBase.child(user_id);
+        current_user_db.child("Name").setValue(userFacebookData.getUsername());
+        current_user_db.child("FacebookId").setValue(userFacebookData.getFacebookid());
+        current_user_db.child("Email").setValue(userFacebookData.getEmail());
+        current_user_db.child("Gender").setValue(userFacebookData.getGender());
     }
 }
