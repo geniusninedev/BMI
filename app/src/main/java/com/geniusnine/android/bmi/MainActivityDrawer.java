@@ -31,7 +31,7 @@ import com.facebook.login.LoginManager;
 import com.geniusnine.android.bmi.BMI.BMIFragment;
 import com.geniusnine.android.bmi.DashBord.GetApp;
 import com.geniusnine.android.bmi.Login.Contacts;
-import com.geniusnine.android.bmi.Login.LoginActivity;
+import com.geniusnine.android.bmi.LoginActivity.Login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -265,7 +265,7 @@ public class MainActivityDrawer extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser()==null){
                     Log.e("ForumMainActivity:", "User was null so directed to Login activity");
-                    Intent loginIntent = new Intent(MainActivityDrawer.this, LoginActivity.class);
+                    Intent loginIntent = new Intent(MainActivityDrawer.this, Login.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
                     finish();
@@ -295,6 +295,13 @@ public class MainActivityDrawer extends AppCompatActivity {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (firebaseAuthListner != null) {
+            firebaseAuth.removeAuthStateListener(firebaseAuthListner);
+        }
+    }
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -310,7 +317,6 @@ public class MainActivityDrawer extends AppCompatActivity {
        //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_logout){
-
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
         }
