@@ -31,6 +31,7 @@ import com.facebook.login.LoginManager;
 import com.geniusnine.android.bmi.BMI.BMIFragment;
 import com.geniusnine.android.bmi.DashBord.GetApp;
 import com.geniusnine.android.bmi.Contacts.Contacts;
+import com.geniusnine.android.bmi.FoodNutritionTable.FoodNutritionTable;
 import com.geniusnine.android.bmi.LoginActivity.Login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -77,8 +78,6 @@ public class MainActivityDrawer extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mNavigationView = (NavigationView) findViewById(R.id.shitstuff);
-        Name = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.name);
-        Email = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.email);
         /**
          * Lets inflate the very first fragment
          * Here , we are inflating the TabFragment as the first Fragment
@@ -104,6 +103,12 @@ public class MainActivityDrawer extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.containerView, new BMIFragment()).commit();
                     /*  Intent intent=new Intent(MainActivityDrawer.this,com.nineinfosys.android.weightlosscalculators.BMI.ForumMainActivity.class);
                        startActivity(intent);*/
+                }
+                if (menuItem.getItemId() == R.id.FoodNutritionTable) {
+                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerView, new FoodNutritionTable()).commit();
+                    /*Intent intent=new Intent(MainActivityDrawer.this, com.nineinfosys.android.weightlosscalculators.Weight.ForumMainActivity.class);
+                    startActivity(intent);*/
                 }
                 if (menuItem.getItemId() == R.id.MoreApps) {
 

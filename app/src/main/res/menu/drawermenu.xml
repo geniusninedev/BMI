@@ -7,7 +7,13 @@
             android:icon="@drawable/btn_bmi_icon"
             android:title="BMI" />
     </group>
+    <group android:id="@+id/grp16" android:checkableBehavior="single" >
+        <item
+            android:id="@+id/FoodNutritionTable"
+            android:icon="@drawable/btn_food_nutrition_table"
+            android:title="Food Nutrition Table" />
 
+    </group>
         <item
             android:id="@+id/Communicate"
             android:title="Communicate"   >

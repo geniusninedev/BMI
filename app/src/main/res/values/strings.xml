@@ -13,4 +13,11 @@
     <string name="facebook_data">FacebookUser</string>
     <string name="email_data">EmailUser</string>
     <string name="google_data">GoogleUser</string>
+
+
+    <string name="information"><u>More Info</u>.</string>
+    <string name="food_nutrition_table_information_title"><br><h3>Food Nutrition Tables Foods</h3></br></string>
+    <string name="food_nutrition_table_information"><br>Those of us who want to lose weight or keep a food diary need to know the energy (kilojoule or calorie) content of the foods we eat.</br></string>
+    <string name="food_nutrition_table_information1"><br>Below are links to 5 sets of food tables, all organised alphabetically. If you are searching for the nutritional information relating to an Apple, click on the A link in the table of your choice. This will take you to a page containing nutritional information for foods beginning with the letter A.</br></string>
+    <string name="food_nutrition_table_information2"><br>Each set of tables contains the number of kilojoules and calories per 100g of around 4,500 common foods, in addition to two other nutrients such as calcium and folate, or carbs and sugars, total fats and saturated fats, fibre and cholesterol, protein and iron or sodium and potassium.</br></string>
 </resources>

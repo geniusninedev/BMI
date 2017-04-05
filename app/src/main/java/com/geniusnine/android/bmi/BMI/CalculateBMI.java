@@ -55,6 +55,7 @@ public class CalculateBMI {
         bmi=(float) (weight / (height * height));
         return bmi;
     }
+
     // Interpret what BMI means
     public String interpretBMI() {
 
@@ -74,7 +75,17 @@ public class CalculateBMI {
             } else {
                 return "Obese Class III";
             }
-        } else {
+        } else if(gender.equals("Children")){
+            if (bmi < 5) {
+                return "Underweight";
+            } else if (bmi < 85) {
+                return "Healthy weight";
+            } else if (bmi < 95) {
+                return "At risk of overweight";
+            } else{
+                return "Overweight";
+            }
+        } else{
             if (bmi < 17.5) {
                 return "Underweight";
             } else if (bmi < 24.9) {
@@ -106,6 +117,16 @@ public class CalculateBMI {
             } else {
                 return  Color.parseColor("#c41919");
             }
+        } else if(gender.equals("Children")){
+            if (bmi < 5) {
+                return Color.parseColor("#dc9b22");
+            } else if (bmi < 85) {
+                return Color.parseColor("#059733");
+            } else if (bmi < 95) {
+                return Color.parseColor("#f7262d");
+            } else{
+                return Color.parseColor("#c41919");
+            }
         } else {
             if (bmi < 17.5) {
                 return  Color.parseColor("#df8b2c");
@@ -124,7 +145,10 @@ public class CalculateBMI {
 
         if(gender.equals("Male")) {
             FAT_percentage= (float) ((1.20 * bmi) + (0.23 * ageinyears) - (10.8 * 1) - 5.4);
-        }else {
+        }else if(gender.equals("Children")) {
+            FAT_percentage = (float) ((1.20 * bmi) + (0.23 * ageinyears) - (10.8 * 0) - 5.4);
+        }
+        else {
             FAT_percentage = (float) ((1.20 * bmi) + (0.23 * ageinyears) - (10.8 * 0) - 5.4);
         }
         return (int) (FAT_percentage);
@@ -146,7 +170,21 @@ public class CalculateBMI {
 
                 return "Obese";
             }
-        } else {
+        }else if(gender.equals("Children")){
+            if (FAT_percentage < 6) {
+                return "Athletes";
+            } else if (FAT_percentage < 17) {
+
+                return "Fitness";
+            } else if (FAT_percentage < 25) {
+
+                return "Acceptable";
+            } else {
+
+                return "Obese";
+            }
+        }
+        else {
             if (FAT_percentage < 6) {
                 return "Athletes";
             } else if (FAT_percentage < 17) {
@@ -174,7 +212,18 @@ public class CalculateBMI {
             } else {
                 return Color.parseColor("#c41919");
             }
-        } else {
+        } else if(gender.equals("Children")) {
+            if (FAT_percentage < 6) {
+                return Color.parseColor("#dc9b22");
+            } else if (FAT_percentage < 17) {
+                return Color.parseColor("#059733");
+            } else if (FAT_percentage < 25) {
+                return Color.parseColor("#059733");
+            } else {
+                return Color.parseColor("#c41919");
+            }
+        }
+            else {
             if (FAT_percentage < 6) {
                 return Color.parseColor("#dc9b22");
             } else if (FAT_percentage < 17) {
@@ -186,6 +235,4 @@ public class CalculateBMI {
             }
         }
     }
-
-
 }

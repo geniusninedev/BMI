@@ -1,34 +1,30 @@
 package com.geniusnine.android.bmi.BMI;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.geniusnine.android.bmi.MainActivityDrawer;
 import com.geniusnine.android.bmi.R;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+
 
 import java.text.DecimalFormat;
 
@@ -37,31 +33,22 @@ public class BMIFragment extends Fragment {
 
     //View Declarations
     EditText editTextAge, editTextHeight, editTextWeight,edittextfeet,edittextInch,edittextWeightInLb,edittextWeightInST,edittextWeightInSTLb;
-    Button buttonCalculate;
+    Button buttonCalculate,buttonMoreInfo;
     ImageView imageViewGender,imageViewHeight,imageViewWeight;
     private RadioGroup radioGroupSex,radioGroupHeight,radioGroupWeight;
     private RadioButton radioButtonSex,radioButtonHeight,radioButtonWeight;
     TextView textViewBMI,textViewFAT,textViewBMIInterpret,textViewFATInterpret;
-
-   // Utility utility;
-
+    WebView Introwebview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_main_bmi, null);
 
         MobileAds.initialize(getActivity(), getString(R.string.ads_app_id));
-        AdView mAdView = (AdView) v.findViewById(R.id.adViewMainPage);
-        AdView AdView = (AdView) v.findViewById(R.id.adViewPage);
-
-       /* utility = new Utility(getActivity());
-        utility.setLayoutForSmartBanner();*/
-        RelativeLayout.LayoutParams params = new  RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.FILL_PARENT);
-        params.addRule(RelativeLayout.ALIGN_BOTTOM, RelativeLayout.TRUE);
+        AdView mAdView = (AdView) v.findViewById(R.id.adViewMainPagebmi);
+        AdView AdView = (com.google.android.gms.ads.AdView) v.findViewById(R.id.adViewPagebmi);
         AdRequest adRequest = new AdRequest.Builder().build();
-
         mAdView.loadAd(adRequest);
         AdView.loadAd(adRequest);
-
 
         ((MainActivityDrawer) getActivity()).toolbar.setTitle("BMI");
         //Initialising Views
@@ -77,14 +64,36 @@ public class BMIFragment extends Fragment {
         imageViewHeight = (ImageView) v.findViewById(R.id.imageViewHeight);
         imageViewWeight = (ImageView) v.findViewById(R.id.imageViewWeight);
         buttonCalculate = (Button) v.findViewById(R.id.buttonCalculate);
+        buttonMoreInfo = (Button) v.findViewById(R.id.buttonMoreInfo);
         textViewBMI = (TextView) v.findViewById(R.id.textViewBMI);
         textViewBMIInterpret = (TextView) v.findViewById(R.id.textViewBMIInterpret);
         textViewFAT = (TextView) v.findViewById(R.id.textViewFAT);
         textViewFATInterpret = (TextView) v.findViewById(R.id.textViewFATInterpret);
 
+
+        buttonMoreInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //alert Dialog Declaration For More Infomation
+                final LayoutInflater inflaterMoreInfo = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View alertLayoutMoreInfo = inflaterMoreInfo.inflate(R.layout.info_webview, null);
+                final AlertDialog.Builder alertDialogBuilderMoreInfo = new AlertDialog.Builder(getActivity());
+                alertDialogBuilderMoreInfo.setTitle("More Info:");
+                Introwebview = (WebView) alertLayoutMoreInfo.findViewById(R.id.webViewinfo);
+                WebSettings IntroWebSettings = Introwebview.getSettings();
+                IntroWebSettings.setBuiltInZoomControls(true);
+                IntroWebSettings.setJavaScriptEnabled(true);
+                Introwebview.setWebViewClient(new WebViewClient());
+                Introwebview.loadUrl("file:///android_res/raw/bmi.html");
+                alertDialogBuilderMoreInfo.setView(alertLayoutMoreInfo);
+                final AlertDialog alertDialogMoreInfo = alertDialogBuilderMoreInfo.create();
+                alertDialogMoreInfo.show();
+            }
+        });
+
         //alert Dialog Declaration For Gender
         final LayoutInflater inflaterGender = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View alertLayoutGender = inflaterGender.inflate(R.layout.dialog, null);
+        final View alertLayoutGender = inflaterGender.inflate(R.layout.dialoggender, null);
         final AlertDialog.Builder alertDialogBuilderGender = new AlertDialog.Builder(getActivity());
         alertDialogBuilderGender.setTitle("Gender :");
         radioGroupSex = (RadioGroup) alertLayoutGender.findViewById(R.id.radioSex);
@@ -102,8 +111,10 @@ public class BMIFragment extends Fragment {
                         alertDialogGender.cancel();
                         radioButtonSex = (RadioButton) alertLayoutGender.findViewById(radioGroup.getCheckedRadioButtonId());
                         //For Changing Button Image
-                        if (radioButtonSex.getText().toString().trim().equals("Male") || radioButtonSex.getText().toString().trim().equals("")) {
+                        if (radioButtonSex.getText().toString().trim().equals("Male")) {
                             imageViewGender.setImageResource(R.drawable.gender_m);
+                        }else if (radioButtonSex.getText().toString().trim().equals("Children")) {
+                            imageViewGender.setImageResource(R.drawable.gender_children);
                         } else {
                             imageViewGender.setImageResource(R.drawable.gender_f);
                         }
@@ -214,8 +225,20 @@ public class BMIFragment extends Fragment {
                 //for hiding keyboard
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                int age = (int) Float.parseFloat(editTextAge.getText().toString().trim());
                 //Default case Calculation
-                if (radioGroupSex.getCheckedRadioButtonId() == -1&& radioGroupHeight.getCheckedRadioButtonId() == -1 && radioGroupWeight.getCheckedRadioButtonId() == -1) {
+                if (age < 18) {
+                   if(radioGroupSex.getCheckedRadioButtonId() == -1){
+                       Toast.makeText(getActivity(),"Please Select Gender as Children",Toast.LENGTH_LONG).show();
+                   } else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
+                       Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
+                   }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
+                       Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
+                   }else{
+                       BMIMethods();
+                   }
+                }
+                else  if (radioGroupSex.getCheckedRadioButtonId() == -1&& radioGroupHeight.getCheckedRadioButtonId() == -1 && radioGroupWeight.getCheckedRadioButtonId() == -1) {
                     //Validation for Edittext  if is blank
                     if (editTextAge.getText().toString().equals("")) {
                         editTextAge.setError("Enter Age");
@@ -236,89 +259,7 @@ public class BMIFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
                     }
                     else {
-                        if(radioButtonHeight.getText().toString().trim().equals("CM")) {
-                            if(radioButtonWeight.getText().toString().trim().equals("KG")) {
-                                //Validation for Edittext  if is blank
-                                if (editTextAge.getText().toString().equals("")) {
-                                    editTextAge.setError("Enter Age");
-                                } else if (editTextHeight.getText().toString().equals("")) {
-                                    editTextHeight.setError("Enter Height");
-                                } else if (editTextWeight.getText().toString().equals("")) {
-                                    editTextWeight.setError("Enter Weight");
-                                } else {
-                                   calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), Float.parseFloat(editTextWeight.getText().toString().trim()), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
-                                }
-                            } else if(radioButtonWeight.getText().toString().trim().equals("LB")) {
-                                //Validation for Edittext  if is blank
-                                if (editTextAge.getText().toString().equals("")) {
-                                    editTextAge.setError("Enter Age");
-                                } else if (editTextHeight.getText().toString().equals("")) {
-                                    editTextHeight.setError("Enter Height");
-                                } else if (edittextWeightInLb.getText().toString().equals("")) {
-                                    edittextWeightInLb.setError("Enter Weight In Lb (Pounds)");
-                                } else {
-                                   calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()),(float) (Float.parseFloat(edittextWeightInLb.getText().toString().trim())* (0.454)), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
-                                }
-                            }
-                            else {
-                                //Validation for Edittext  if is blank
-                                if (editTextAge.getText().toString().equals("")) {
-                                    editTextAge.setError("Enter Age");
-                                } else if (editTextHeight.getText().toString().equals("")) {
-                                    editTextHeight.setError("Enter Height");
-                                } else if (edittextWeightInST.getText().toString().equals("")) {
-                                    edittextWeightInST.setError("Enter Weight in ST (Stone)");
-                                }  else if (edittextWeightInSTLb.getText().toString().equals("")) {
-                                    edittextWeightInSTLb.setError("Enter Weight In Lb (Pounds)");
-                                }
-                                else {
-                                   calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), (float) (((Float.parseFloat(edittextWeightInST.getText().toString().trim()))*(6.350))+((Float.parseFloat(edittextWeightInSTLb.getText().toString().trim()))*(0.454))), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
-                                }
-                            }
-                        }else {
-                            if (radioButtonWeight.getText().toString().trim().equals("KG")) {
-                                //Validation for Edittext  if is blank
-                                if (editTextAge.getText().toString().equals("")) {
-                                    editTextAge.setError("Enter Age");
-                                } else if(edittextfeet.getText().toString().equals("")){
-                                    edittextfeet.setError("Enter Feet");
-                                }else if(edittextInch.getText().toString().equals("")){
-                                    edittextInch.setError("Enter Inch");
-                                }else if (editTextWeight.getText().toString().equals("")) {
-                                    editTextWeight.setError("Enter Weight");
-                                } else {
-                                   calculateBMIandFAT( (float) (((Float.parseFloat(edittextfeet.getText().toString().trim()))*(30.48))+((Float.parseFloat(edittextInch.getText().toString().trim()))*(2.54))), Float.parseFloat(editTextWeight.getText().toString().trim()), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
-                                }
-                            } else if (radioButtonWeight.getText().toString().trim().equals("LB")) {
-                                //Validation for Edittext  if is blank
-                                if (editTextAge.getText().toString().equals("")) {
-                                    editTextAge.setError("Enter Age");
-                                }else if(edittextfeet.getText().toString().equals("")){
-                                    edittextfeet.setError("Enter Feet");
-                                }else if(edittextInch.getText().toString().equals("")){
-                                    edittextInch.setError("Enter Inch");
-                                } else if (edittextWeightInLb.getText().toString().equals("")) {
-                                    edittextWeightInLb.setError("Enter Weight In Lb (Pounds)");
-                                } else {
-                                   calculateBMIandFAT((float) (((Float.parseFloat(edittextfeet.getText().toString().trim()))*(30.48))+((Float.parseFloat(edittextInch.getText().toString().trim()))*(2.54))), (float) (Float.parseFloat(edittextWeightInLb.getText().toString().trim()) * (0.454)), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
-                                }
-                            } else {
-                                //Validation for Edittext  if is blank
-                                if (editTextAge.getText().toString().equals("")) {
-                                    editTextAge.setError("Enter Age");
-                                } else if(edittextfeet.getText().toString().equals("")){
-                                    edittextfeet.setError("Enter Feet");
-                                }else if(edittextInch.getText().toString().equals("")){
-                                    edittextInch.setError("Enter Inch");
-                                } else if (edittextWeightInST.getText().toString().equals("")) {
-                                    edittextWeightInST.setError("Enter Weight in ST (Stone)");
-                                } else if (edittextWeightInSTLb.getText().toString().equals("")) {
-                                    edittextWeightInSTLb.setError("Enter Weight In Lb (Pounds)");
-                                } else {
-                                   calculateBMIandFAT((float) (((Float.parseFloat(edittextfeet.getText().toString().trim()))*(30.48))+((Float.parseFloat(edittextInch.getText().toString().trim()))*(2.54))), (float) (((Float.parseFloat(edittextWeightInST.getText().toString().trim())) * (6.350)) + ((Float.parseFloat(edittextWeightInSTLb.getText().toString().trim())) * (0.454))), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
-                                }
-                            }
-                        }
+                        BMIMethods();
                     }
                 }
             }
@@ -328,6 +269,92 @@ public class BMIFragment extends Fragment {
         );
 
         return v;
+    }
+
+
+    public void BMIMethods(){
+        if (radioButtonHeight.getText().toString().trim().equals("CM")) {
+            if (radioButtonWeight.getText().toString().trim().equals("KG")) {
+                //Validation for Edittext  if is blank
+                if (editTextAge.getText().toString().equals("")) {
+                    editTextAge.setError("Enter Age");
+                } else if (editTextHeight.getText().toString().equals("")) {
+                    editTextHeight.setError("Enter Height");
+                } else if (editTextWeight.getText().toString().equals("")) {
+                    editTextWeight.setError("Enter Weight");
+                } else {
+                    calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), Float.parseFloat(editTextWeight.getText().toString().trim()), Float.parseFloat(editTextAge.getText().toString().trim()),radioButtonSex.getText().toString().trim());
+                }
+            } else if (radioButtonWeight.getText().toString().trim().equals("LB")) {
+                //Validation for Edittext  if is blank
+                if (editTextAge.getText().toString().equals("")) {
+                    editTextAge.setError("Enter Age");
+                } else if (editTextHeight.getText().toString().equals("")) {
+                    editTextHeight.setError("Enter Height");
+                } else if (edittextWeightInLb.getText().toString().equals("")) {
+                    edittextWeightInLb.setError("Enter Weight In Lb (Pounds)");
+                } else {
+                    calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), (float) (Float.parseFloat(edittextWeightInLb.getText().toString().trim()) * (0.454)), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
+                }
+            } else {
+                //Validation for Edittext  if is blank
+                if (editTextAge.getText().toString().equals("")) {
+                    editTextAge.setError("Enter Age");
+                } else if (editTextHeight.getText().toString().equals("")) {
+                    editTextHeight.setError("Enter Height");
+                } else if (edittextWeightInST.getText().toString().equals("")) {
+                    edittextWeightInST.setError("Enter Weight in ST (Stone)");
+                } else if (edittextWeightInSTLb.getText().toString().equals("")) {
+                    edittextWeightInSTLb.setError("Enter Weight In Lb (Pounds)");
+                } else {
+                    calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), (float) (((Float.parseFloat(edittextWeightInST.getText().toString().trim())) * (6.350)) + ((Float.parseFloat(edittextWeightInSTLb.getText().toString().trim())) * (0.454))), Float.parseFloat(editTextAge.getText().toString().trim()),radioButtonSex.getText().toString().trim());
+                }
+            }
+        } else {
+            if (radioButtonWeight.getText().toString().trim().equals("KG")) {
+                //Validation for Edittext  if is blank
+                if (editTextAge.getText().toString().equals("")) {
+                    editTextAge.setError("Enter Age");
+                } else if (edittextfeet.getText().toString().equals("")) {
+                    edittextfeet.setError("Enter Feet");
+                } else if (edittextInch.getText().toString().equals("")) {
+                    edittextInch.setError("Enter Inch");
+                } else if (editTextWeight.getText().toString().equals("")) {
+                    editTextWeight.setError("Enter Weight");
+                } else {
+                    calculateBMIandFAT((float) (((Float.parseFloat(edittextfeet.getText().toString().trim())) * (30.48)) + ((Float.parseFloat(edittextInch.getText().toString().trim())) * (2.54))), Float.parseFloat(editTextWeight.getText().toString().trim()), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
+                }
+            } else if (radioButtonWeight.getText().toString().trim().equals("LB")) {
+                //Validation for Edittext  if is blank
+                if (editTextAge.getText().toString().equals("")) {
+                    editTextAge.setError("Enter Age");
+                } else if (edittextfeet.getText().toString().equals("")) {
+                    edittextfeet.setError("Enter Feet");
+                } else if (edittextInch.getText().toString().equals("")) {
+                    edittextInch.setError("Enter Inch");
+                } else if (edittextWeightInLb.getText().toString().equals("")) {
+                    edittextWeightInLb.setError("Enter Weight In Lb (Pounds)");
+                } else {
+                    calculateBMIandFAT((float) (((Float.parseFloat(edittextfeet.getText().toString().trim())) * (30.48)) + ((Float.parseFloat(edittextInch.getText().toString().trim())) * (2.54))), (float) (Float.parseFloat(edittextWeightInLb.getText().toString().trim()) * (0.454)), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
+                }
+            } else {
+                //Validation for Edittext  if is blank
+                if (editTextAge.getText().toString().equals("")) {
+                    editTextAge.setError("Enter Age");
+                } else if (edittextfeet.getText().toString().equals("")) {
+                    edittextfeet.setError("Enter Feet");
+                } else if (edittextInch.getText().toString().equals("")) {
+                    edittextInch.setError("Enter Inch");
+                } else if (edittextWeightInST.getText().toString().equals("")) {
+                    edittextWeightInST.setError("Enter Weight in ST (Stone)");
+                } else if (edittextWeightInSTLb.getText().toString().equals("")) {
+                    edittextWeightInSTLb.setError("Enter Weight In Lb (Pounds)");
+                } else {
+                    calculateBMIandFAT((float) (((Float.parseFloat(edittextfeet.getText().toString().trim())) * (30.48)) + ((Float.parseFloat(edittextInch.getText().toString().trim())) * (2.54))), (float) (((Float.parseFloat(edittextWeightInST.getText().toString().trim())) * (6.350)) + ((Float.parseFloat(edittextWeightInSTLb.getText().toString().trim())) * (0.454))), Float.parseFloat(editTextAge.getText().toString().trim()), radioButtonSex.getText().toString().trim());
+                }
+            }
+        }
+
     }
     public void calculateBMIandFAT(float height,float weight,float age,String gender){
         CalculateBMI calculateBMI = new CalculateBMI(height/ 100, weight, age, gender);
@@ -345,6 +372,11 @@ public class BMIFragment extends Fragment {
         int resultFATColor=calculateBMI.interpretFATCOLOR();
         textViewFATInterpret.setTextColor(resultFATColor);
     }
+    public class WebViewClient extends android.webkit.WebViewClient {
 
-
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+    }
 }

@@ -213,28 +213,58 @@
                 </LinearLayout>
             </LinearLayout>
             <!-- Button for calculating the formula, when pressed, with calculate written over it -->
-            <Button
-                android:id="@+id/buttonCalculate"
-                android:layout_width="150dp"
-                android:layout_height="51dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:fadingEdge="vertical"
-                android:longClickable="true"
-                android:text="Calculate"
-
-                android:textStyle="bold"
-                android:textColor="#ffffff"
-                android:background="@color/colorPrimary"
-                android:visibility="visible"
-                style="@style/Widget.AppCompat.Button.Small" />
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adViewMainPage"
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:weightSum="3"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/buttonCalculate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="left"
+                    android:fadingEdge="vertical"
+                    android:longClickable="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Calculate"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:background="@color/colorPrimary"
+                    android:visibility="visible" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/buttonMoreInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="right"
+                    android:fadingEdge="vertical"
+                    android:longClickable="true"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/information"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:background="@color/colorPrimary"
+                    android:visibility="visible" />
+            </LinearLayout>
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adViewMainPagebmi"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 ads:adSize="SMART_BANNER"
+                android:layout_marginTop="1dp"
                 ads:adUnitId="@string/banner_ad_unit_id">
             </com.google.android.gms.ads.AdView>
             <View
@@ -266,8 +296,6 @@
                 android:layout_marginTop="10dp"
                 android:weightSum="3"
                 android:orientation="horizontal">
-
-
                 <TextView
                     android:text="Types"
                     android:layout_width="100dp"
@@ -297,15 +325,12 @@
                     android:id="@+id/TextViewStatus"
                     android:layout_weight="1" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
-
-
                 <TextView
                     android:text="BMI"
                     android:layout_width="100dp"
@@ -316,7 +341,6 @@
                     android:textColor="#000000"
                     android:layout_weight="1"
                     android:textSize="16sp" />
-
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -343,8 +367,6 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
-
-
                 <TextView
                     android:text="FAT"
                     android:gravity="center"
@@ -355,7 +377,6 @@
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:textSize="16sp" />
-
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -375,6 +396,175 @@
                     android:layout_weight="1"
                     android:textSize="16sp" />
             </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_marginTop="15dp"
+            android:background="#000000" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center">
+            <TextView
+                android:text=" BMI Children Classification For Age 2-18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewBMIChildrenClassification"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textSize="18dp"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:weightSum="2"
+            >
+            <TextView
+                android:text="Classification"
+                android:layout_width="100dp"
+                android:textColor="#000000"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewBMIChildrenClassification1"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textSize="14dp" />
+            <TextView
+                android:text="Children"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewBMIChildrenClassification3"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                >
+                <TextView
+                    android:text="Underweight"
+                    android:textStyle="bold"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewUnderweight"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="#dc9b22"
+                    android:textSize="14dp" />
+                <TextView
+                    android:text="5%"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewUnderweight1"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="#dc9b22"
+                    android:textSize="16dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:weightSum="2"
+                >
+                <TextView
+                    android:text="Healthy weight"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:id="@+id/textViewHealthyweight"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14dp" />
+                <TextView
+                    android:text="5% - 85%"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/textViewHealthyweight1"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:weightSum="2"
+                >
+                <TextView
+                    android:text="At risk of overweight"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewAtriskofoverweight"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="#f7262d"
+                    android:textSize="14dp" />
+                <TextView
+                    android:text=" 85% - 95%"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewAtriskofoverweight1"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#f7262d"
+                    android:textSize="16dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                >
+                <TextView
+                    android:text="Overweight"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewOverweight"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#c41919"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:text=">95%"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewOverweight1"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#c41919"
+                    android:textSize="16dp" />
+            </LinearLayout>
             <View
                 android:layout_marginTop="10dp"
                 android:layout_width="fill_parent"
@@ -387,7 +577,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center">
                 <TextView
-                    android:text=" BMI Classification"
+                    android:text=" BMI Classification For Age Above 18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewClassification"
@@ -396,8 +586,6 @@
                     android:textSize="18dp"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -406,7 +594,6 @@
                 android:layout_marginTop="10dp"
                 android:weightSum="3"
                 >
-
                 <TextView
                     android:text="Classification"
                     android:layout_width="100dp"
@@ -439,8 +626,6 @@
                     android:textColor="#000000"
                     android:textSize="14dp" />
             </LinearLayout>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -923,11 +1108,11 @@
                     android:layout_width="fill_parent"
                     android:layout_height="2dip"
                     android:layout_marginTop="20dp"
-                    android:background="@android:color/black" />
+                    android:background="#000000" />
 
                 <com.google.android.gms.ads.AdView
-                    android:id="@+id/adViewPage"
-                    android:layout_width="match_parent"
+                    android:id="@+id/adViewPagebmi"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
@@ -935,6 +1120,7 @@
                     ads:adUnitId="@string/banner_ad_unit_id">
                 </com.google.android.gms.ads.AdView>
             </LinearLayout>
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
