@@ -52,8 +52,11 @@
         <activity
             android:name=".LoginActivity.SignUp"
             android:windowSoftInputMode="stateHidden|adjustResize"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            />
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".LoginActivity.Login" />
+        </activity>
 
         <activity android:name=".DashBord.GetApp"
             android:configChanges="orientation|screenSize|keyboardHidden">
