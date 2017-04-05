@@ -1,4 +1,4 @@
-package com.geniusnine.android.bmi.Login;
+package com.geniusnine.android.bmi.Contacts;
 
 /**
  * Created by Dev on 13-03-2017.

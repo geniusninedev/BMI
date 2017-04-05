@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.facebook.login.LoginManager;
 import com.geniusnine.android.bmi.BMI.BMIFragment;
 import com.geniusnine.android.bmi.DashBord.GetApp;
-import com.geniusnine.android.bmi.Login.Contacts;
+import com.geniusnine.android.bmi.Contacts.Contacts;
 import com.geniusnine.android.bmi.LoginActivity.Login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
