@@ -225,44 +225,48 @@ public class BMIFragment extends Fragment {
                 //for hiding keyboard
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                int age = (int) Float.parseFloat(editTextAge.getText().toString().trim());
-                //Default case Calculation
-                if (age <= 18) {
-                   if(radioGroupSex.getCheckedRadioButtonId() == -1){
-                       Toast.makeText(getActivity(),"Please Select Gender as Children",Toast.LENGTH_LONG).show();
-                   } else if(!radioButtonSex.getText().toString().trim().equals("Children")){
-                       Toast.makeText(getActivity(),"Please Select Gender as Children",Toast.LENGTH_LONG).show();
-                   }else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
-                       Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
-                   }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
-                       Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
-                   }else{
-                       BMIMethods();
-                   }
-                }//Default case Calculation
-                else  if (radioGroupSex.getCheckedRadioButtonId() == -1&& radioGroupHeight.getCheckedRadioButtonId() == -1 && radioGroupWeight.getCheckedRadioButtonId() == -1) {
-                    //Validation for Edittext  if is blank
-                    if (editTextAge.getText().toString().equals("")) {
-                        editTextAge.setError("Enter Age");
-                    } else if (editTextHeight.getText().toString().equals("")) {
-                        editTextHeight.setError("Enter Height");
-                    } else if (editTextWeight.getText().toString().equals("")) {
-                        editTextWeight.setError("Enter Weight");
-                    } else {
-                       calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), Float.parseFloat(editTextWeight.getText().toString().trim()), Float.parseFloat(editTextAge.getText().toString().trim()),"Male");
-                    }
+                if (editTextAge.getText().toString().trim().equals("")) {
+                    editTextAge.setError("Enter Age");
                 } else {
-                    //Validation for radiobutton if not checked
-                    if (radioGroupSex.getCheckedRadioButtonId() == -1 ){
-                        Toast.makeText(getActivity(), "Please Select Gender", Toast.LENGTH_LONG).show();
-                    }else if(age > 18 && radioButtonSex.getText().toString().trim().equals("Children") ){
-                        Toast.makeText(getActivity(),"Please Select Gender Male or Female",Toast.LENGTH_LONG).show();
-                    } else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
-                        Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
-                    }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
-                        Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
+                    int age = (int) Float.parseFloat(editTextAge.getText().toString().trim());
+                    //Default case Calculation
+                    if (radioGroupSex.getCheckedRadioButtonId() == -1 && radioGroupHeight.getCheckedRadioButtonId() == -1 && radioGroupWeight.getCheckedRadioButtonId() == -1) {
+                        //Validation for Edittext  if is blank
+                        if (editTextAge.getText().toString().equals("")) {
+                            editTextAge.setError("Enter Age");
+                        } else if (editTextHeight.getText().toString().equals("")) {
+                            editTextHeight.setError("Enter Height");
+                        } else if (editTextWeight.getText().toString().equals("")) {
+                            editTextWeight.setError("Enter Weight");
+                        } else {
+                            calculateBMIandFAT(Float.parseFloat(editTextHeight.getText().toString().trim()), Float.parseFloat(editTextWeight.getText().toString().trim()), Float.parseFloat(editTextAge.getText().toString().trim()), "Male");
+                        }
+                    }//Default case Calculation
+                    else if (age <= 18) {
+                        if (radioGroupSex.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(getActivity(), "Please Select Gender as Children", Toast.LENGTH_LONG).show();
+                        } else if (!radioButtonSex.getText().toString().trim().equals("Children")) {
+                            Toast.makeText(getActivity(), "Please Select Gender as Children", Toast.LENGTH_LONG).show();
+                        } else if (radioGroupHeight.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
+                        } else if (radioGroupWeight.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
+                        } else {
+                            BMIMethods();
+                        }
                     } else {
-                        BMIMethods();
+                        //Validation for radiobutton if not checked
+                        if (radioGroupSex.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(getActivity(), "Please Select Gender", Toast.LENGTH_LONG).show();
+                        } else if (age > 18 && radioButtonSex.getText().toString().trim().equals("Children")) {
+                            Toast.makeText(getActivity(), "Please Select Gender Male or Female", Toast.LENGTH_LONG).show();
+                        } else if (radioGroupHeight.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
+                        } else if (radioGroupWeight.getCheckedRadioButtonId() == -1) {
+                            Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
+                        } else {
+                            BMIMethods();
+                        }
                     }
                 }
             }
