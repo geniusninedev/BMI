@@ -60,17 +60,19 @@ public class CalculateBMI {
     public String interpretBMI() {
 
         if (gender.equals("Male")) {
-            if (bmi < 16) {
+            if(bmi <16){
+                return "Not In Range";
+            } else if (bmi >= 16 && bmi <=17) {
                 return "Severely underweight";
-            } else if (bmi < 18.5) {
+            } else if (bmi >=17 &&  bmi <=18.5) {
                 return "Underweight";
-            } else if (bmi < 25) {
+            } else if (bmi >=18.5 && bmi <= 25) {
                 return "Normal";
-            } else if (bmi < 30) {
+            } else if (bmi >=25 && bmi <= 30) {
                 return "Overweight";
-            } else if (bmi < 35) {
+            } else if (bmi >=30 && bmi <= 35) {
                 return "Obese Class I";
-            } else if (bmi < 40) {
+            } else if (bmi >=35 && bmi <= 40) {
                 return "Obese Class II";
             } else {
                 return "Obese Class III";
@@ -78,22 +80,24 @@ public class CalculateBMI {
         } else if(gender.equals("Children")){
             if (bmi < 5) {
                 return "Underweight";
-            } else if (bmi < 85) {
+            } else if (bmi >=5 && bmi <= 85) {
                 return "Healthy weight";
-            } else if (bmi < 95) {
+            } else if (bmi >=85&& bmi <= 95) {
                 return "At risk of overweight";
             } else{
                 return "Overweight";
             }
         } else{
-            if (bmi < 17.5) {
+            if(bmi < 0){
+                return "Not In Range";
+            } else if (bmi >=0 && bmi <= 17.5) {
                 return "Underweight";
-            } else if (bmi < 24.9) {
+            } else if (bmi >=18.5 &&bmi <= 24.9) {
                 return "Normal";
-            } else if (bmi < 40) {
+            } else if (bmi >=30 &&bmi <= 40) {
                 return "Overweight";
             } else {
-                return "Obese Class ";
+                return "Obese Class III";
             }
 
         }
@@ -101,18 +105,20 @@ public class CalculateBMI {
     // Interpret what BMI COLOR
     public int interpretBMICOLOR() {
 
-        if (gender == "Male") {
+        if (gender.equals("Male")) {
             if (bmi < 16) {
+                return Color.parseColor("#c41919");
+            } else if (bmi >= 16 && bmi <=17) {
                 return Color.parseColor("#dc9b22");
-            } else if (bmi < 18.5) {
+            } else if (bmi >=17 &&  bmi <=18.5) {
                 return Color.parseColor("#df8b2c");
-            } else if (bmi < 25) {
+            } else if (bmi >=18.5 && bmi <= 25) {
                 return Color.parseColor("#059733");
-            } else if (bmi < 30) {
+            } else if (bmi >=25 && bmi <= 30) {
                 return Color.parseColor("#f7262d");
-            } else if (bmi < 35) {
+            } else if (bmi >=30 && bmi <= 35) {
                 return  Color.parseColor("#c41919");
-            } else if (bmi < 40) {
+            } else if (bmi >=35 && bmi <= 40) {
                 return  Color.parseColor("#c41919");
             } else {
                 return  Color.parseColor("#c41919");
@@ -120,19 +126,21 @@ public class CalculateBMI {
         } else if(gender.equals("Children")){
             if (bmi < 5) {
                 return Color.parseColor("#dc9b22");
-            } else if (bmi < 85) {
+            } else if (bmi >=5 && bmi <= 85) {
                 return Color.parseColor("#059733");
-            } else if (bmi < 95) {
+            } else if (bmi >=85&& bmi <= 95) {
                 return Color.parseColor("#f7262d");
             } else{
                 return Color.parseColor("#c41919");
             }
         } else {
-            if (bmi < 17.5) {
+            if(bmi < 0){
+                return  Color.parseColor("#c41919");
+            }else if (bmi >=0 && bmi <= 17.5) {
                 return  Color.parseColor("#df8b2c");
-            } else if (bmi < 24.9) {
+            } else if (bmi >=18.5 &&bmi <= 24.9) {
                 return Color.parseColor("#059733");
-            } else if (bmi < 40) {
+            } else if (bmi >=30 &&bmi <= 40) {
                 return Color.parseColor("#c41919");
             } else {
                 return Color.parseColor("#c41919");
@@ -158,81 +166,67 @@ public class CalculateBMI {
     public String interpretFAT() {
 
         if (gender.equals("Male")) {
-            if (FAT_percentage < 14) {
-                return "Athletes";
-            } else if (FAT_percentage < 24) {
-
-                return "Fitness";
-            } else if (FAT_percentage < 31) {
-
-                return "Acceptable";
-            } else {
-
-                return "Obese";
-            }
-        }else if(gender.equals("Children")){
             if (FAT_percentage < 6) {
+                return "Not In Range";
+            } else if (FAT_percentage >= 6 && FAT_percentage <= 13) {
                 return "Athletes";
-            } else if (FAT_percentage < 17) {
-
+            } else if (FAT_percentage >= 14 && FAT_percentage <= 17) {
                 return "Fitness";
-            } else if (FAT_percentage < 25) {
-
+            } else if (FAT_percentage >= 18 && FAT_percentage <= 25) {
                 return "Acceptable";
-            } else {
-
+            } else  if (FAT_percentage > 25){
                 return "Obese";
+            }else{
+                return "Not In Range";
+            }
+        } else {
+            if (FAT_percentage< 14 ) {
+                return "Not In Range";
+            } else  if (FAT_percentage >= 14 && FAT_percentage <= 20) {
+                return "Athletes";
+            } else if (FAT_percentage >= 21 && FAT_percentage <= 24) {
+                return "Fitness";
+            } else if (FAT_percentage >= 25 && FAT_percentage <= 31) {
+                return "Acceptable";
+            } else if ( FAT_percentage > 31) {
+                return "Obese";
+            }else{
+                return "Not In Range";
             }
         }
-        else {
-            if (FAT_percentage < 6) {
-                return "Athletes";
-            } else if (FAT_percentage < 17) {
 
-                return "Fitness";
-            } else if (FAT_percentage < 25) {
-
-                return "Acceptable";
-            } else {
-
-                return "Obese";
-            }
-        }
     }
     // Interpret what FAT COLOR
     public int interpretFATCOLOR() {
-
-        if (gender == "Female") {
-            if (FAT_percentage < 20) {
+        if (gender.equals("Male")) {
+            if (FAT_percentage < 6) {
+                return Color.parseColor("#c41919");
+            } else if (FAT_percentage >= 6 && FAT_percentage <= 13) {
                 return Color.parseColor("#dc9b22");
-            } else if (FAT_percentage < 24) {
+            } else if (FAT_percentage >= 14 && FAT_percentage <= 17) {
                 return Color.parseColor("#059733");
-            } else if (FAT_percentage < 31) {
+            } else if (FAT_percentage >= 18 && FAT_percentage <= 25) {
                 return Color.parseColor("#059733");
-            } else {
+            } else if (FAT_percentage > 25){
+                return Color.parseColor("#c41919");
+            }else{
                 return Color.parseColor("#c41919");
             }
-        } else if(gender.equals("Children")) {
-            if (FAT_percentage < 6) {
-                return Color.parseColor("#dc9b22");
-            } else if (FAT_percentage < 17) {
-                return Color.parseColor("#059733");
-            } else if (FAT_percentage < 25) {
-                return Color.parseColor("#059733");
-            } else {
+        } else {
+            if (FAT_percentage < 14) {
                 return Color.parseColor("#c41919");
-            }
-        }
-            else {
-            if (FAT_percentage < 6) {
+            } else if (FAT_percentage >= 14 && FAT_percentage <= 20) {
                 return Color.parseColor("#dc9b22");
-            } else if (FAT_percentage < 17) {
+            } else if (FAT_percentage >= 21 && FAT_percentage <= 24) {
                 return Color.parseColor("#059733");
-            } else if (FAT_percentage < 25) {
+            } else if (FAT_percentage >= 25 && FAT_percentage <= 31) {
                 return Color.parseColor("#059733");
-            } else {
+            } else if (FAT_percentage > 31) {
+                return Color.parseColor("#c41919");
+            }else{
                 return Color.parseColor("#c41919");
             }
         }
     }
+
 }
