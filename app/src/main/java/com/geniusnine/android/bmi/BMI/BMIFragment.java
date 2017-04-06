@@ -239,7 +239,7 @@ public class BMIFragment extends Fragment {
                    }else{
                        BMIMethods();
                    }
-                }
+                }//Default case Calculation
                 else  if (radioGroupSex.getCheckedRadioButtonId() == -1&& radioGroupHeight.getCheckedRadioButtonId() == -1 && radioGroupWeight.getCheckedRadioButtonId() == -1) {
                     //Validation for Edittext  if is blank
                     if (editTextAge.getText().toString().equals("")) {
@@ -255,12 +255,13 @@ public class BMIFragment extends Fragment {
                     //Validation for radiobutton if not checked
                     if (radioGroupSex.getCheckedRadioButtonId() == -1 ){
                         Toast.makeText(getActivity(), "Please Select Gender", Toast.LENGTH_LONG).show();
+                    }else if(age > 18 && radioButtonSex.getText().toString().trim().equals("Children") ){
+                        Toast.makeText(getActivity(),"Please Select Gender Male or Female",Toast.LENGTH_LONG).show();
                     } else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
                         Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
                     }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
                         Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         BMIMethods();
                     }
                 }
