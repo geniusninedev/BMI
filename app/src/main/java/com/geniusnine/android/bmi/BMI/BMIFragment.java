@@ -227,10 +227,12 @@ public class BMIFragment extends Fragment {
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 int age = (int) Float.parseFloat(editTextAge.getText().toString().trim());
                 //Default case Calculation
-                if (age < 18) {
+                if (age <= 18) {
                    if(radioGroupSex.getCheckedRadioButtonId() == -1){
                        Toast.makeText(getActivity(),"Please Select Gender as Children",Toast.LENGTH_LONG).show();
-                   } else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
+                   } else if(!radioButtonSex.getText().toString().trim().equals("Children")){
+                       Toast.makeText(getActivity(),"Please Select Gender as Children",Toast.LENGTH_LONG).show();
+                   }else if(radioGroupHeight.getCheckedRadioButtonId() == -1 ) {
                        Toast.makeText(getActivity(), "Please Select Height Unit", Toast.LENGTH_LONG).show();
                    }else if(radioGroupWeight.getCheckedRadioButtonId() == -1 ){
                        Toast.makeText(getActivity(), "Please Select Weight Unit", Toast.LENGTH_LONG).show();
