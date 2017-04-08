@@ -96,10 +96,10 @@ public class Login extends AppCompatActivity {
 
                 if (mUser != null) {
                     if (mUser.isEmailVerified()) {
-                        Toast.makeText(Login.this, "You are in =)", Toast.LENGTH_LONG).show();
+                       /* Toast.makeText(Login.this, "You are in =)", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivityDrawer.class);
                         startActivity(intent);
-                        finish();
+                        finish();*/
                     }
                 } else {
 
