@@ -720,7 +720,7 @@
                     android:textColor="@color/colorPrimary"
                     />
                 <TextView
-                    android:text="18.5 - 25"
+                    android:text="17.5 - 25"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewnormal2"
