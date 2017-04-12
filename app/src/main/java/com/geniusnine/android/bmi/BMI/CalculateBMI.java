@@ -92,9 +92,9 @@ public class CalculateBMI {
                 return "Not In Range";
             } else if (bmi >=0 && bmi <= 17.5) {
                 return "Underweight";
-            } else if (bmi >=18.5 &&bmi <= 24.9) {
+            } else if (bmi >=18.5 &&bmi <= 25) {
                 return "Normal";
-            } else if (bmi >=30 &&bmi <= 40) {
+            } else if (bmi >=25 &&bmi <= 40) {
                 return "Overweight";
             } else {
                 return "Obese Class III";
@@ -138,9 +138,9 @@ public class CalculateBMI {
                 return  Color.parseColor("#c41919");
             }else if (bmi >=0 && bmi <= 17.5) {
                 return  Color.parseColor("#df8b2c");
-            } else if (bmi >=18.5 &&bmi <= 24.9) {
+            } else if (bmi >=18.5 &&bmi <= 25) {
                 return Color.parseColor("#059733");
-            } else if (bmi >=30 &&bmi <= 40) {
+            } else if (bmi >=25 &&bmi <= 40) {
                 return Color.parseColor("#c41919");
             } else {
                 return Color.parseColor("#c41919");

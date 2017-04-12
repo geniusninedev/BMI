@@ -720,7 +720,7 @@
                     android:textColor="@color/colorPrimary"
                     />
                 <TextView
-                    android:text="18.5 - 24.9"
+                    android:text="18.5 - 25"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewnormal2"
@@ -758,7 +758,7 @@
                     android:textStyle="bold"
                     android:layout_weight="1" />
                 <TextView
-                    android:text="30 - 40"
+                    android:text="25 - 40"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textViewoverweight2"
