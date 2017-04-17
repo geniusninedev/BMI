@@ -18,7 +18,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".LoginActivity.CustomApplication"
+        android:name="android.support.multidex.MultiDexApplication"
         android:theme="@style/AppTheme">
 
         <activity
@@ -41,18 +41,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>
 
 
         <activity android:name=".LoginActivity.Login"
@@ -75,6 +63,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivityDrawer" />
         </activity>
+
+        <activity android:name=".Forum.NewPostActivity"
+            android:label="Add New Post"/>
+        <activity android:name=".Forum.PostDetailActivity"
+            android:label="Comment"/>
+
+        <activity android:name=".Forum.ForumActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="Forum"></activity>
     </application>
 
 </manifest>

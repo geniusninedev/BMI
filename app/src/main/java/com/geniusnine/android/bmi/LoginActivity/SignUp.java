@@ -53,7 +53,7 @@ public class SignUp extends AppCompatActivity {
         password = (EditText) findViewById(R.id.edit_text_new_password);
 
         mAuth = FirebaseAuth.getInstance();
-        mRef = FirebaseDatabase.getInstance().getReference().child(getString(R.string.app_id)).child("Users");//.child(getString(R.string.email_data));
+        mRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
