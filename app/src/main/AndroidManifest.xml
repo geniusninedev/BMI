@@ -18,7 +18,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name="android.support.multidex.MultiDexApplication"
+        android:name=".LoginActivity.CustomApplication"
         android:theme="@style/AppTheme">
 
         <activity
@@ -64,14 +64,14 @@
                 android:value=".MainActivityDrawer" />
         </activity>
 
-        <activity android:name=".Forum.NewPostActivity"
-            android:label="Add New Post"/>
-        <activity android:name=".Forum.PostDetailActivity"
-            android:label="Comment"/>
+        <activity android:name=".FoodNutritionTable.FoodNutritionTable"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivityDrawer" />
+        </activity>
 
-        <activity android:name=".Forum.ForumActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="Forum"></activity>
+
     </application>
 
 </manifest>

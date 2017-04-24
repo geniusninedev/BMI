@@ -37,7 +37,6 @@ import com.geniusnine.android.bmi.BMI.BMIFragment;
 import com.geniusnine.android.bmi.DashBord.GetApp;
 import com.geniusnine.android.bmi.Contacts.Contacts;
 import com.geniusnine.android.bmi.FoodNutritionTable.FoodNutritionTable;
-import com.geniusnine.android.bmi.Forum.ForumActivity;
 import com.geniusnine.android.bmi.LoginActivity.Login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -61,7 +60,7 @@ public class MainActivityDrawer extends AppCompatActivity {
     TextView Name,Email;
     public Toolbar toolbar;
     Intent intent;
-    private FloatingActionButton fab;
+  //  private FloatingActionButton fab;
     private static final int PERMISSION_REQUEST_CODE = 200;
     ///Azure Database connection for contact uploading
     private MobileServiceClient mobileServiceClientContactUploading;
@@ -75,16 +74,7 @@ public class MainActivityDrawer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Firebase.setAndroidContext(this);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
         setContentView(R.layout.drawermain);
-
-        AppEventsLogger.activateApp(this);
-        /**
-         *Setup the DrawerLayout and NavigationView
-         */
-
 
         firebaseAuth=FirebaseAuth.getInstance();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -102,33 +92,14 @@ public class MainActivityDrawer extends AppCompatActivity {
          * Setup click events on the Navigation View Items.
          */
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //  Toast.makeText(MainActivityDrawer.this,"This Is Under Consturtion", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(MainActivityDrawer.this, ForumActivity.class));
-                /*Intent intent = new Intent(MainActivity.this, NewMessageActivity.class);
-                startActivity(intent);*/
-            }
-        });
-
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 mDrawerLayout.closeDrawers();
 
-                if (menuItem.getItemId() == R.id.BMI){
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, new BMIFragment()).commit();
-                    /*  Intent intent=new Intent(MainActivityDrawer.this,com.nineinfosys.android.weightlosscalculators.BMI.ForumMainActivity.class);
-                       startActivity(intent);*/
-                }
+
                 if (menuItem.getItemId() == R.id.FoodNutritionTable) {
-                    FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.containerView, new FoodNutritionTable()).commit();
-                    /*Intent intent=new Intent(MainActivityDrawer.this, com.nineinfosys.android.weightlosscalculators.Weight.ForumMainActivity.class);
-                    startActivity(intent);*/
+                   startActivity(new Intent(MainActivityDrawer.this,FoodNutritionTable.class));
                 }
                 if (menuItem.getItemId() == R.id.MoreApps) {
 
