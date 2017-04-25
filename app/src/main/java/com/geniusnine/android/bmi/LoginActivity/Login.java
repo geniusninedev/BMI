@@ -242,7 +242,9 @@ public class Login extends AppCompatActivity {
     //Goes to SignUp Activity for registering User
     public void onSignUpClicked(View view) {
         Intent intent = new Intent(this, SignUp.class);
+
         startActivity(intent);
+        finish();
     }
 
     //Login User
@@ -286,8 +288,9 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this,"You are in =)",Toast.LENGTH_LONG).show();
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivityDrawer.class);
-                                startActivity(intent);
                                 finish();
+                                startActivity(intent);
+
                             }
 
                             else {
